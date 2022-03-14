@@ -1,6 +1,6 @@
 ---
 title: "Activity 9"
-author: "Name"
+author: "Robert Bilyk"
 output: github_document
 ---
 
@@ -14,6 +14,10 @@ In this activity, we will create a function for calculating the range of a numer
 
 To begin, we need `{tidyverse}` and `{gapminder}` (for a dataset to test our functions with) packages loaded.
 
+```{r}
+library(tidyverse)
+library(gapminder)
+```
 
 
 
@@ -27,6 +31,14 @@ Remember that in statistics *range = max - min*.
 Describe how you could you use the output from some combination of the above functions to calculate the range?
 Note that I can think of two different methods: 1) using `min` and `max`, and 2) using `range` with the square bracket (`[]`) method.
 
+
+You could use max-min to calculate the range.
+```{r}
+max(gapminder$lifeExp)
+min(gapminder$lifeExp)
+range(gapminder$lifeExp)
+
+```
 
 
 
@@ -93,6 +105,10 @@ Test this function to verify that it works.
 Below check this function using the `lifeExp` column of the `gapminder` dataset.
 Also, verify that it gets the correct result for `1:10` (a sequence of numbers starting at 1 and ending at 10, increasing by 1), `5:100`, `gapminder$pop` (the population of each country in the `gapminder` data set), and `gapminder$gdpPercap`.
 
+```{r}
+diff_range(gapminder$gdpPercap)
+range(gapminder$gdpPercap)
+```
 
 
 
@@ -110,16 +126,44 @@ Convince yourself that you know how to use it by being able to explain what the 
 
 Also, explore this function with different `probs`.
 
+```{r}
+quantile(gapminder$lifeExp)
+quantile(gapminder$lifeExp, probs = 0.5)
+quantile(gapminder$lifeExp, probs = c(0.25, 0.75))
+quantile(gapminder$lifeExp, probs = 0.57)
+
+```
 
 
 Once, you feel comfortable with the `quantile` function, create a function named `quantile_range` that calculates the statistical range.
 
+```{r}
+quantile_range <- function(x){
+  quantile_results <- quantile(x, probs = c(0,1))
+  quantile_min <- quantile_results[1]
+  quantile_max <- quantile_results[2]
+  quantile_final <- quantile_max- quantile_min
+  return(quantile_final)
+}
+
+quantile(gapminder$lifeExp, probs = c(0,1))[2][1]
+
+```
 
 
 Test your function to verify that it works.
 Below check this function using the `lifeExp` column of the `gapminder` dataset.
 Also, verify that it gets the correct result for `1:10` (a sequence of numbers starting at 1 and ending at 10, increasing by 1), `5:100`, `gapminder$pop` (the population of each country in the `gapminder` data set), and `gapminder$gdpPercap`.
 
+```{r}
+quantile_range(gapminder$lifeExp)
+quantile_range(1:10)
+quantile_range(5:100)
+quantile_range(gapminder$pop)
+quantile_range(gapminder$gdpPercap)
+
+
+```
 
 
 ![](README-img/noun_pause.png) **Planned Pause Point**: This is the end of Part 1 of this activity. You can use the rest of the class period working on your project. The rest of this activity will be completed in our next class session/at home.
